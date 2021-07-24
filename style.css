@@ -1,0 +1,79 @@
+/*The selector below(*) is used to reset the entire page first of all.
+Basically a base format-er.
+It deletes all default formatting on the intitial webpage.*/
+/*01*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+}
+
+/*02*/
+body{
+    /*Using background-color property actually changes the color of the body background.
+    However, to use linear gradient as the argument, we use background-image as the property*/
+    background-image: linear-gradient(45deg, rgb(245, 135, 135), rgb(141, 76, 65));
+    /*The color property below affects all the fonts on the webpage*/
+    color: white;
+    /*The font-family specifies the font-type. We imported Poiret from google,
+    using the link within the html head tag
+    San serif is the backup font type*/
+    font-family: "Poiret", sans-serif;
+    /*Specifies the minimum heihgt of every element on the webpage*/
+    min-height: 100vh;
+}
+
+/*03*/
+header{
+    font-size: 1.5rem;
+}
+
+/*The selector below is important. Notice how we said "header, form".
+This means we are selecting both the header and form that are in the same order.
+This order is based on our html document order.
+Our header and form have the same order, hence we can style both of them using this selector.
+Compare this selector to the 05 css style*/
+/*04*/
+header, form{
+    min-height: 20vh;
+    /*The next three properties are used to center the selected elements on the page*/
+    display: flex; /*display flex allows us to make use of the flex properties*/
+    justify-content: center; /*justify-content controls the horizontal property*/
+    align-items: center; /*align-items controls the vertical property*/
+}
+
+/*The selector below is an example where we selected html elements using the parent and child property.
+form is the parent, and input is one child of that parent. 
+Same logic applies to form(parent) button(child)
+Compare this selector to the 04 css style*/
+/*05*/
+form input, form button{
+/*This styles the input form as well as the icon button we added*/
+    padding: 0.5rem;/*creates a small space between the element and it's boundary*/
+    font-size: 2rem;/*controls font size*/
+    border: none;/*removes the border that was around it.*/
+    /*consder commenting this out to see it's effect*/
+    background: white;/*controls the properties of the background.*/
+}
+
+/*This selector is similar to the one from 05.
+The css here blew my mind. It's the first time I was exposed to some properties.
+For example, the cursor property and the transition property.
+Consider explorting more of these properties and their parameters in the future.*/
+/*06*/
+form button{
+    color: rgb(245, 135, 135);
+    background: white;
+    cursor: pointer;/*I'm not even sure what this does yet.*/
+    transition: all 0.3s ease;/*I have no idea either.*/
+}
+
+/*This selector is an instance selector.
+Once we hover over the form button, we want some style to take effect.*/
+/*Consider commenting this code block out to notice the difference*/
+/*07*/
+form button:hover{
+    background: rgb(245, 135, 135);
+    color: white;
+    
+}
