@@ -12,7 +12,7 @@ It deletes all default formatting on the intitial webpage.*/
 body{
     /*Using background-color property actually changes the color of the body background.
     However, to use linear gradient as the argument, we use background-image as the property*/
-    background-image: linear-gradient(45deg, rgb(245, 135, 135), rgb(141, 76, 65));
+    background-image: linear-gradient(45deg, rgb(118, 191, 204), rgb(120, 209, 224));
     /*The color property below affects all the fonts on the webpage*/
     color: white;
     /*The font-family specifies the font-type. We imported Poiret from google,
@@ -62,9 +62,11 @@ For example, the cursor property and the transition property.
 Consider explorting more of these properties and their parameters in the future.*/
 /*06*/
 form button{
-    color: rgb(245, 135, 135);
+    color: /*rgb(118, 191, 204)*/ grey;
     background: white;
     cursor: pointer;/*I'm not even sure what this does yet.*/
+    /*LOL!!! So the cursor property specifies the type of cursor you went when your cursor 
+    glides over the specific object.*/
     transition: all 0.3s ease;/*I have no idea either.*/
 }
 
@@ -73,7 +75,75 @@ Once we hover over the form button, we want some style to take effect.*/
 /*Consider commenting this code block out to notice the difference*/
 /*07*/
 form button:hover{
-    background: rgb(245, 135, 135);
-    color: white;
-    
+    background: rgb(118, 191, 204);
+    color: white;   
 }
+
+/* This selector styles the container for all our UI and LI elements.*/
+/*08*/
+.todo-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*All the code block above centers the elements of that div on screen.*/
+}
+
+/*This styles our UL element that houses the LI that will be created.*/
+/*09*/
+.todo-list{
+    min-width: 30%;
+    list-style: none;/*This removes those dots that come with a list element by default*/
+}
+
+/*This styles the several LI elements that will be created inside the UL element.
+We are actually styling the div that houses each LI element and two buttons.*/
+/*10*/
+.todo{
+    margin: 0.5rem;/*We've gone over margin before*/
+    /*padding: 0.5rem;/*We've gone over padding before*/
+    background: white;/*We've gone over background before*/
+    color: black;
+    font-size: 1.5rem;
+    display: flex;
+    /*wihtout this, the elements inside this div(li, check-btn & trash-btn would not be 
+    displayed side by side. Try to toggle the property off to appreciate it's effect.*/
+    justify-content: space-between;
+    /*This creates a space between each element, however, This space is removed when we applied
+    the flex of 1 to the li element. check the 11 css below.*/
+    align-items: center;/*align element vertically.*/
+}
+
+/*This styles the several LI element only.*/
+/*11*/
+.todo li{
+    flex: 1;
+}
+
+/*This styles the buttons we created.*/
+/*12*/
+.complete-btn, .trash-btn{
+    background: rgb(2, 87, 102);
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/*This styles the complete button we created.*/
+/*13*/
+.complete-btn{
+    background: rgb(193, 255, 100);
+}
+
+/*14*/
+.todo-item{
+    padding: 0rem 0.5rem;
+}
+
+/*This removes the pointer abilities of the buttons.*/
+/*15*/
+.fa-trash, .fa-check{
+   pointer-events: none; 
+}
+
