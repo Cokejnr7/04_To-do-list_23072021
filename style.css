@@ -111,6 +111,7 @@ We are actually styling the div that houses each LI element and two buttons.*/
     /*This creates a space between each element, however, This space is removed when we applied
     the flex of 1 to the li element. check the 11 css below.*/
     align-items: center;/*align element vertically.*/
+    transition: all 1s ease;/*this transition takes effect after the user clicks the check button*/
 }
 
 /*This styles the several LI element only.*/
@@ -147,3 +148,68 @@ We are actually styling the div that houses each LI element and two buttons.*/
    pointer-events: none; 
 }
 
+.completed{
+    text-decoration: line-through;
+    opacity: 0.5;/*This makes the text transparent*/
+}
+
+.fall{
+    transform: translateY(8rem) rotateZ(20deg);
+    opacity: 0;
+}
+
+.trash-btn:hover{
+    background: rgb(199, 39, 39);
+    color: white; 
+}
+
+.complete-btn:hover{
+    background: lightgreen;
+    color: green; 
+}
+
+/*The followin code blocks are used to style the Select element*/
+/*01:- We remove all default formatting in the select element*/
+select{
+    -webkit-appearance: none;
+    /*This is a webkit that helps in styling HTML elements to resemble native UIs.*/
+    -moz-appearance: none;
+    /*This is a webkit that helps in styling HTML elements to resemble native UIs.*/
+    appearance: none;
+    outline: none;
+    border: none;
+}
+
+.select{
+    margin: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+select{
+    color: rgb(2, 87, 102);
+    width: 10rem;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+/*The  ::after selector is used to specify content that we want to add after an element*/
+/*We use this to add the drop down arrow that comes in normal selection models*/
+/*After specifyin it with content property, we then style it afterwards.*/
+.select::after{
+    content: "\25BC";
+    /*This content property is linkted to a HTML documentation.*/
+    /*Visit https://www.w3schools.com/cssref/css_entities.asp for more info.*/
+    position: absolute;
+    background: rgb(2, 87, 102);
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.select:hover::after{
+    background: white;
+    color: rgb(2, 87, 102);
+}

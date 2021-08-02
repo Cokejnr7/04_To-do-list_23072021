@@ -27,12 +27,16 @@ easy.
 const todoInput = document.querySelector('.todo-input');
 const todoButton = document.querySelector('.todo-button');
 const todoList = document.querySelector('.todo-list');
+const filterOption = document.querySelector('.filter-todo');
 
 //EventListeners
 /*This event listener enables us to add a list when we click on the plus icon button*/
 todoButton.addEventListener('click', addTodo);
 /*This event listener enables us to delete a list when we click on the delete button*/
 todoList.addEventListener('click', deleteCheck);
+/*This event listener enables us to filer the list when we make our selection*/
+filterOption.addEventListener('click', filterTodo);
+
 
 //Functions
 function addTodo(event) {
@@ -78,7 +82,16 @@ function deleteCheck(e){
     if (item.classList[0] === 'trash-btn') {
         /*The condition says that if the class of what we click is trash-btn, then return true.*/
         const todo = item.parentElement;//save the parent element inside that variable
-        todo.remove();//delete that element(hence deleting the entire div)
+        /*For the animation of deleting the element, we add the fall class to the todo element
+        i.e the div element.
+        After this, we go to css and define the animation and transiton in the fall class.*/
+        todo.classList.add("fall");//adds fall class to the element
+        /*To delete the element now, we use this event listner.
+        The trigger is now transition end, and the function to execute is defined in the code block*/
+        todo.addEventListener('transitionend', function(){
+            todo.remove();
+            //delete that element(hence deleting the entire div)
+        });
     }
     //MARK AS COMPLETED
     if (item.classList[0] === 'complete-btn') {
@@ -86,4 +99,9 @@ function deleteCheck(e){
         const todo = item.parentElement;//save the parent element inside that variable
         todo.classList.toggle("completed");//change the class to comleted. toggle is a method.
     }
+}
+
+function filterTodo(e){
+    const todos = todoList.childNodes;
+    console.log(todos)
 }
