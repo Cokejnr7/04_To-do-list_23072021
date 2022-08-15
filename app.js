@@ -35,13 +35,24 @@ todoButton.addEventListener('click', addTodo);
 /*This event listener enables us to delete a list when we click on the delete button*/
 todoList.addEventListener('click', deleteCheck);
 /*This event listener enables us to filer the list when we make our selection*/
-filterOption.addEventListener('click', filterTodo);
+filterOption.addEventListener('change', filterTodo);
 
+//mark complete
+document.addEventListener('click', markComplete)
+
+//persist to localstorage
+document.addEventListener('DOMContentLoaded',getTasks);
+
+//localStorage.clear();
 
 //Functions
 function addTodo(event) {
     //This PreventDefault prevents the form from submitting when you click the button.
     event.preventDefault();
+    if(todoInput.value == false){
+        alert("add a task");
+        return
+    };
     //CREATE TO-DO DIV
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo');//add a class of todo using the ClassList property and add method
@@ -58,7 +69,7 @@ function addTodo(event) {
     //to add the icon tag to the button we just created, we use the innerHTML property.
     //we  then type out the entire line like we would do in normal HTML code block.
     completedButton.innerHTML = '<i class="fas fa-check"></i>';
-    completedButton.classList.add('complete-btn');// add a class to the element
+    completedButton.className = 'complete-btn';// add a class to the element
     todoDiv.appendChild(completedButton);// add that element as a child to a Parent.
     //CREATE TRASH BUTTON
     const trashButton = document.createElement('button');
@@ -69,10 +80,51 @@ function addTodo(event) {
     todoDiv.appendChild(trashButton);// add that element as a child to a Parent.
     //APPEND DIV TO LIST.
     todoList.appendChild(todoDiv);
+    addToLocalStorage(todoInput.value);
     //DELETES TEXT TYPED BY THE USER
     todoInput.value = "";
     //tis sets the value to nothing(basically deletes the value)
     //notice how we did this code line after we have added the input into the li.
+}
+function getTasks(){
+    let tasks;
+localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
+
+tasks.forEach(task =>{
+        //CREATE TO-DO DIV
+        const todoDiv = document.createElement('div');
+        todoDiv.classList.add('todo');//add a class of todo using the ClassList property and add method
+        //CREATE LI ELEMENT
+        const newTodo = document.createElement('li');
+        newTodo.innerText = task;
+        //add the innertext element to the li.
+        //the .value property let's us assign the value gotten from the input tag in our HTML,
+        //and use that value as the innertext for the li.
+        newTodo.classList.add('todo-item');//add a class to the element
+        todoDiv.appendChild(newTodo);//add that element as a child to a Parent.
+        //CREATE COMPLETED BUTTON
+        const completedButton = document.createElement('button');
+        //to add the icon tag to the button we just created, we use the innerHTML property.
+        //we  then type out the entire line like we would do in normal HTML code block.
+        completedButton.innerHTML = '<i class="fas fa-check"></i>';
+        completedButton.className = 'complete-btn';// add a class to the element
+        todoDiv.appendChild(completedButton);// add that element as a child to a Parent.
+        //CREATE TRASH BUTTON
+        const trashButton = document.createElement('button');
+        //to add the icon tag to the button we just created, we use the innerHTML property.
+        //we  then type out the entire line like we would do in normal HTML code block.
+        trashButton.innerHTML = '<i class="fas fa-trash"></i>';
+        trashButton.classList.add('trash-btn');// add a class to the element
+        todoDiv.appendChild(trashButton);// add that element as a child to a Parent.
+        //APPEND DIV TO LIST.
+    todoList.appendChild(todoDiv);
+})
+}
+function addToLocalStorage(task){
+let tasks;
+localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
+tasks.push(task);
+localStorage.setItem('tasks',JSON.stringify(tasks));
 }
 
 function deleteCheck(e){
@@ -82,26 +134,78 @@ function deleteCheck(e){
     if (item.classList[0] === 'trash-btn') {
         /*The condition says that if the class of what we click is trash-btn, then return true.*/
         const todo = item.parentElement;//save the parent element inside that variable
+        console.log(todo.childNodes[0].textContent);
         /*For the animation of deleting the element, we add the fall class to the todo element
         i.e the div element.
         After this, we go to css and define the animation and transiton in the fall class.*/
-        todo.classList.add("fall");//adds fall class to the element
-        /*To delete the element now, we use this event listner.
-        The trigger is now transition end, and the function to execute is defined in the code block*/
-        todo.addEventListener('transitionend', function(){
-            todo.remove();
-            //delete that element(hence deleting the entire div)
-        });
+        if ( confirm(`are you sure you want to delete ${todo.textContent.slice(0,10)}` ) === true){
+            todo.classList.add("fall");//adds fall class to the element
+            /*To delete the element now, we use this event listner.
+            The trigger is now transition end, and the function to execute is defined in the code block*/
+            todo.addEventListener('transitionend', function(){
+               
+                todo.remove();
+                removeFromLocalStorage(todo.childNodes[0].textContent);
+                //delete that element(hence deleting the entire div)
+            });
+        }
+       
     }
     //MARK AS COMPLETED
-    if (item.classList[0] === 'complete-btn') {
+}
+
+
+function removeFromLocalStorage(todoItem){
+let tasks;
+localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
+tasks.forEach((task,index) =>{
+    if (task === todoItem){
+        tasks.splice(index,1);
+    }
+    
+})
+localStorage.setItem('tasks',JSON.stringify(tasks))
+}
+
+function markComplete(e){
+    e.preventDefault();
+
+    if (e.target.className === 'complete-btn') {
         /*The condition says that if the class of what we click is complete-btn, then return true.*/
-        const todo = item.parentElement;//save the parent element inside that variable
+        const todo = e.target.parentElement;//save the parent element inside that variable
         todo.classList.toggle("completed");//change the class to comleted. toggle is a method.
     }
 }
 
 function filterTodo(e){
-    const todos = todoList.childNodes;
-    console.log(todos)
+    x = e.target
+    if (x === filterOption){
+        lists = document.querySelectorAll('.todo')
+
+        switch(x.value){
+            case "completed":
+                for (let i = 0; i<lists.length;i++){
+                    if(!lists[i].classList.contains('completed'))lists[i].style.display = "none";                              
+                }
+                // code block
+                break;
+              case "uncompleted":
+                for (let i = 0; i<lists.length;i++){
+                    if(!lists[i].classList.contains('completed'))lists[i].style.display = "flex";
+                    if(lists[i].classList.contains('completed'))lists[i].style.display = "none";                                                     
+                }
+                // code block
+                break;
+              default:
+                for (let i = 0; i<lists.length;i++){
+                    if(lists[i].classList.contains('completed'))lists[i].style.display = "flex";                              
+                }
+                // code block
+
+            
+        }
+        
+
+    }
+
 }
