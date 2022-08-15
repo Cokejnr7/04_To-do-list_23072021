@@ -40,6 +40,10 @@ filterOption.addEventListener('change', filterTodo);
 //mark complete
 document.addEventListener('click', markComplete)
 
+//persist to localstorage
+document.addEventListener('DOMContentLoaded',getTasks);
+
+//localStorage.clear();
 
 //Functions
 function addTodo(event) {
@@ -76,10 +80,51 @@ function addTodo(event) {
     todoDiv.appendChild(trashButton);// add that element as a child to a Parent.
     //APPEND DIV TO LIST.
     todoList.appendChild(todoDiv);
+    addToLocalStorage(todoInput.value);
     //DELETES TEXT TYPED BY THE USER
     todoInput.value = "";
     //tis sets the value to nothing(basically deletes the value)
     //notice how we did this code line after we have added the input into the li.
+}
+function getTasks(){
+    let tasks;
+localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
+
+tasks.forEach(task =>{
+        //CREATE TO-DO DIV
+        const todoDiv = document.createElement('div');
+        todoDiv.classList.add('todo');//add a class of todo using the ClassList property and add method
+        //CREATE LI ELEMENT
+        const newTodo = document.createElement('li');
+        newTodo.innerText = task;
+        //add the innertext element to the li.
+        //the .value property let's us assign the value gotten from the input tag in our HTML,
+        //and use that value as the innertext for the li.
+        newTodo.classList.add('todo-item');//add a class to the element
+        todoDiv.appendChild(newTodo);//add that element as a child to a Parent.
+        //CREATE COMPLETED BUTTON
+        const completedButton = document.createElement('button');
+        //to add the icon tag to the button we just created, we use the innerHTML property.
+        //we  then type out the entire line like we would do in normal HTML code block.
+        completedButton.innerHTML = '<i class="fas fa-check"></i>';
+        completedButton.className = 'complete-btn';// add a class to the element
+        todoDiv.appendChild(completedButton);// add that element as a child to a Parent.
+        //CREATE TRASH BUTTON
+        const trashButton = document.createElement('button');
+        //to add the icon tag to the button we just created, we use the innerHTML property.
+        //we  then type out the entire line like we would do in normal HTML code block.
+        trashButton.innerHTML = '<i class="fas fa-trash"></i>';
+        trashButton.classList.add('trash-btn');// add a class to the element
+        todoDiv.appendChild(trashButton);// add that element as a child to a Parent.
+        //APPEND DIV TO LIST.
+    todoList.appendChild(todoDiv);
+})
+}
+function addToLocalStorage(task){
+let tasks;
+localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
+tasks.push(task);
+localStorage.setItem('tasks',JSON.stringify(tasks));
 }
 
 function deleteCheck(e){
@@ -89,6 +134,7 @@ function deleteCheck(e){
     if (item.classList[0] === 'trash-btn') {
         /*The condition says that if the class of what we click is trash-btn, then return true.*/
         const todo = item.parentElement;//save the parent element inside that variable
+        console.log(todo.childNodes[0].textContent);
         /*For the animation of deleting the element, we add the fall class to the todo element
         i.e the div element.
         After this, we go to css and define the animation and transiton in the fall class.*/
@@ -99,6 +145,7 @@ function deleteCheck(e){
             todo.addEventListener('transitionend', function(){
                
                 todo.remove();
+                removeFromLocalStorage(todo.childNodes[0].textContent);
                 //delete that element(hence deleting the entire div)
             });
         }
@@ -106,6 +153,20 @@ function deleteCheck(e){
     }
     //MARK AS COMPLETED
 }
+
+
+function removeFromLocalStorage(todoItem){
+let tasks;
+localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
+tasks.forEach((task,index) =>{
+    if (task === todoItem){
+        tasks.splice(index,1);
+    }
+    
+})
+localStorage.setItem('tasks',JSON.stringify(tasks))
+}
+
 function markComplete(e){
     e.preventDefault();
 
