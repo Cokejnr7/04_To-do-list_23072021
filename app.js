@@ -86,11 +86,12 @@ function addTodo(event) {
     //tis sets the value to nothing(basically deletes the value)
     //notice how we did this code line after we have added the input into the li.
 }
+
 function getTasks(){
     let tasks;
-localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
+    localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
 
-tasks.forEach(task =>{
+    tasks.forEach(task =>{
         //CREATE TO-DO DIV
         const todoDiv = document.createElement('div');
         todoDiv.classList.add('todo');//add a class of todo using the ClassList property and add method
@@ -118,13 +119,14 @@ tasks.forEach(task =>{
         todoDiv.appendChild(trashButton);// add that element as a child to a Parent.
         //APPEND DIV TO LIST.
     todoList.appendChild(todoDiv);
-})
+    })
 }
+
 function addToLocalStorage(task){
-let tasks;
-localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
-tasks.push(task);
-localStorage.setItem('tasks',JSON.stringify(tasks));
+    let tasks;
+    localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
+    tasks.push(task);
+    localStorage.setItem('tasks',JSON.stringify(tasks));
 }
 
 function deleteCheck(e){
@@ -156,15 +158,15 @@ function deleteCheck(e){
 
 
 function removeFromLocalStorage(todoItem){
-let tasks;
-localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
-tasks.forEach((task,index) =>{
-    if (task === todoItem){
-        tasks.splice(index,1);
-    }
-    
-})
-localStorage.setItem('tasks',JSON.stringify(tasks))
+    let tasks;
+    localStorage.getItem('tasks')?  tasks = JSON.parse(localStorage.getItem('tasks')):tasks = [];
+    tasks.forEach((task,index) =>{
+        if (task === todoItem){
+            tasks.splice(index,1);
+        }
+        
+    })
+    localStorage.setItem('tasks',JSON.stringify(tasks))
 }
 
 function markComplete(e){
@@ -181,7 +183,6 @@ function filterTodo(e){
     x = e.target
     if (x === filterOption){
         lists = document.querySelectorAll('.todo')
-
         switch(x.value){
             case "completed":
                 for (let i = 0; i<lists.length;i++){
@@ -201,11 +202,6 @@ function filterTodo(e){
                     if(lists[i].classList.contains('completed'))lists[i].style.display = "flex";                              
                 }
                 // code block
-
-            
         }
-        
-
     }
-
 }
