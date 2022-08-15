@@ -13,7 +13,7 @@ Visit Code Ninja for more on selecting html elements using the DOM model.
 
 2. Event Listeners
 These are basically code lines that we use to create a state or an instance that will activate
-make our block of code to run on a particular selector that we made.
+our block of code to run on a particular selector that we made.
 For example, if we have created a Javascript element(also known as a Variable), we can apply
 a listener to it. 
 This will make the code block that we specify to run on that element when the condition is met.
