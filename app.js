@@ -165,14 +165,18 @@ function deleteCheck(e) {
 
 function removeFromLocalStorage(todoItem) {
     let tasks;
+    let states;
     localStorage.getItem('tasks') ? tasks = JSON.parse(localStorage.getItem('tasks')) : tasks = [];
+    localStorage.getItem('states') ? states = JSON.parse(localStorage.getItem('states')) : states = [];
     tasks.forEach((task, index) => {
         if (task === todoItem) {
             tasks.splice(index, 1);
+            states.splice(index,1);
         }
 
     })
-    localStorage.setItem('tasks', JSON.stringify(tasks))
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('states', JSON.stringify(states));
 }
 
 //MARK AS COMPLETED
